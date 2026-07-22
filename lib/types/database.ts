@@ -28,6 +28,7 @@ export type Database = {
           full_name?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       property_workspace: {
         Row: {
@@ -66,6 +67,7 @@ export type Database = {
           loan_notes?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       workspace_members: {
         Row: {
@@ -86,6 +88,7 @@ export type Database = {
           joined_at?: string
           invited_by?: string | null
         }
+        Relationships: []
       }
       ownership_groups: {
         Row: {
@@ -112,6 +115,7 @@ export type Database = {
           display_order?: number
           created_at?: string
         }
+        Relationships: []
       }
       ownership_group_members: {
         Row: {
@@ -129,6 +133,7 @@ export type Database = {
           profile_id?: string
           created_at?: string
         }
+        Relationships: []
       }
       equity_policy_versions: {
         Row: {
@@ -155,6 +160,7 @@ export type Database = {
           created_at?: string
           effective_at?: string
         }
+        Relationships: []
       }
       financial_transactions: {
         Row: {
@@ -211,6 +217,7 @@ export type Database = {
           posted_at?: string | null
           reversed_transaction_id?: string | null
         }
+        Relationships: []
       }
       transaction_allocations: {
         Row: {
@@ -237,6 +244,7 @@ export type Database = {
           allocation_role?: AllocationRole
           created_at?: string
         }
+        Relationships: []
       }
       capital_ledger_entries: {
         Row: {
@@ -272,6 +280,7 @@ export type Database = {
           post_transaction_percentage?: number | null
           created_at?: string
         }
+        Relationships: []
       }
       audit_log: {
         Row: {
@@ -304,6 +313,7 @@ export type Database = {
           metadata?: Json | null
           created_at?: string
         }
+        Relationships: []
       }
     }
     Views: {

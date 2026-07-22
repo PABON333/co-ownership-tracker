@@ -35,15 +35,18 @@ as $$
 $$;
 
 -- profiles policies
+drop policy if exists "Users can view their own profile" on profiles;
 create policy "Users can view their own profile"
   on profiles for select
   using (id = auth.uid());
 
+drop policy if exists "Users can update their own profile" on profiles;
 create policy "Users can update their own profile"
   on profiles for update
   using (id = auth.uid());
 
 -- Workspace members can view each other's profiles
+drop policy if exists "Workspace members can view co-member profiles" on profiles;
 create policy "Workspace members can view co-member profiles"
   on profiles for select
   using (
@@ -54,34 +57,41 @@ create policy "Workspace members can view co-member profiles"
   );
 
 -- property_workspace policies
+drop policy if exists "Workspace members can view workspace" on property_workspace;
 create policy "Workspace members can view workspace"
   on property_workspace for select
   using (is_workspace_member(id));
 
+drop policy if exists "Any authenticated user can create workspace" on property_workspace;
 create policy "Any authenticated user can create workspace"
   on property_workspace for insert
   with check (auth.uid() is not null);
 
+drop policy if exists "Workspace members can update workspace" on property_workspace;
 create policy "Workspace members can update workspace"
   on property_workspace for update
   using (is_workspace_member(id));
 
 -- workspace_members policies
+drop policy if exists "Members can view workspace members" on workspace_members;
 create policy "Members can view workspace members"
   on workspace_members for select
   using (is_workspace_member(workspace_id));
 
+drop policy if exists "Workspace members can add members" on workspace_members;
 create policy "Workspace members can add members"
   on workspace_members for insert
   with check (is_workspace_member(workspace_id) or workspace_id not in (
     select workspace_id from workspace_members where profile_id = auth.uid()
   ));
 
+drop policy if exists "Members can delete workspace members" on workspace_members;
 create policy "Members can delete workspace members"
   on workspace_members for delete
   using (is_workspace_member(workspace_id));
 
 -- Allow first workspace creation (user not yet a member)
+drop policy if exists "Creator can add themselves as first member" on workspace_members;
 create policy "Creator can add themselves as first member"
   on workspace_members for insert
   with check (
@@ -90,19 +100,23 @@ create policy "Creator can add themselves as first member"
   );
 
 -- ownership_groups policies
+drop policy if exists "Workspace members can view ownership groups" on ownership_groups;
 create policy "Workspace members can view ownership groups"
   on ownership_groups for select
   using (is_workspace_member(workspace_id));
 
+drop policy if exists "Workspace members can create ownership groups" on ownership_groups;
 create policy "Workspace members can create ownership groups"
   on ownership_groups for insert
   with check (is_workspace_member(workspace_id));
 
+drop policy if exists "Workspace members can update ownership groups" on ownership_groups;
 create policy "Workspace members can update ownership groups"
   on ownership_groups for update
   using (is_workspace_member(workspace_id));
 
 -- ownership_group_members policies
+drop policy if exists "Workspace members can view group members" on ownership_group_members;
 create policy "Workspace members can view group members"
   on ownership_group_members for select
   using (
@@ -111,6 +125,7 @@ create policy "Workspace members can view group members"
     )
   );
 
+drop policy if exists "Workspace members can manage group membership" on ownership_group_members;
 create policy "Workspace members can manage group membership"
   on ownership_group_members for all
   using (
@@ -120,26 +135,31 @@ create policy "Workspace members can manage group membership"
   );
 
 -- equity_policy_versions policies
+drop policy if exists "Workspace members can view policies" on equity_policy_versions;
 create policy "Workspace members can view policies"
   on equity_policy_versions for select
   using (is_workspace_member(workspace_id));
 
+drop policy if exists "Workspace members can create policies" on equity_policy_versions;
 create policy "Workspace members can create policies"
   on equity_policy_versions for insert
   with check (is_workspace_member(workspace_id));
 
 -- financial_transactions policies
+drop policy if exists "Workspace members can view transactions" on financial_transactions;
 create policy "Workspace members can view transactions"
   on financial_transactions for select
   using (is_workspace_member(workspace_id));
 
 -- Transactions are only inserted via the post_transaction RPC (security definer)
 -- Direct client inserts are blocked; RPC bypasses RLS
+drop policy if exists "No direct client inserts on transactions" on financial_transactions;
 create policy "No direct client inserts on transactions"
   on financial_transactions for insert
   with check (false);
 
 -- capital_ledger_entries policies
+drop policy if exists "Workspace members can view ledger entries" on capital_ledger_entries;
 create policy "Workspace members can view ledger entries"
   on capital_ledger_entries for select
   using (
@@ -149,11 +169,13 @@ create policy "Workspace members can view ledger entries"
   );
 
 -- Ledger entries are only inserted via RPC
+drop policy if exists "No direct client inserts on ledger" on capital_ledger_entries;
 create policy "No direct client inserts on ledger"
   on capital_ledger_entries for insert
   with check (false);
 
 -- transaction_allocations policies
+drop policy if exists "Workspace members can view allocations" on transaction_allocations;
 create policy "Workspace members can view allocations"
   on transaction_allocations for select
   using (
@@ -162,15 +184,18 @@ create policy "Workspace members can view allocations"
     )
   );
 
+drop policy if exists "No direct client inserts on allocations" on transaction_allocations;
 create policy "No direct client inserts on allocations"
   on transaction_allocations for insert
   with check (false);
 
 -- audit_log policies
+drop policy if exists "Workspace members can view audit log" on audit_log;
 create policy "Workspace members can view audit log"
   on audit_log for select
   using (is_workspace_member(workspace_id));
 
+drop policy if exists "No direct client inserts on audit log" on audit_log;
 create policy "No direct client inserts on audit log"
   on audit_log for insert
   with check (false);
