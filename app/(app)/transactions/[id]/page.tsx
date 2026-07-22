@@ -208,7 +208,7 @@ export default async function TransactionDetailPage({
             <div className="space-y-2 text-sm">
               {(allocations ?? []).map((a) => (
                 <div key={a.id} className="flex justify-between">
-                  <span>{(a.ownership_groups as { name: string } | null)?.name ?? a.ownership_group_id}</span>
+                  <span>{(a.ownership_groups as unknown as { name: string } | null)?.name ?? a.ownership_group_id}</span>
                   <div className="flex items-center gap-3">
                     <Badge variant="outline" className="text-xs capitalize">
                       {a.allocation_role}
@@ -234,7 +234,7 @@ export default async function TransactionDetailPage({
                 <div key={e.id} className="space-y-1">
                   <div className="flex justify-between">
                     <span className="font-medium">
-                      {(e.ownership_groups as { name: string } | null)?.name}
+                      {(e.ownership_groups as unknown as { name: string } | null)?.name}
                     </span>
                     <span
                       className={

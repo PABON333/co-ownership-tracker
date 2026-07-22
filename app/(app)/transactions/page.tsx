@@ -55,8 +55,8 @@ export default async function TransactionsPage({
     .order('created_at', { ascending: false })
     .range(offset, offset + pageSize - 1)
 
-  if (params.type) query = query.eq('type', params.type)
-  if (params.status) query = query.eq('status', params.status)
+  if (params.type) query = query.eq('type', params.type as TransactionType)
+  if (params.status) query = query.eq('status', params.status as TransactionStatus)
   if (params.from) query = query.gte('effective_date', params.from)
   if (params.to) query = query.lte('effective_date', params.to)
 

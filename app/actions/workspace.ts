@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { workspaceSetupSchema, inviteSchema, equityPolicySchema } from '@/lib/validations'
 import { DEFAULT_EQUITY_POLICY } from '@/lib/types/app'
+import type { Json } from '@/lib/types/database'
 import { revalidatePath } from 'next/cache'
 
 const DEFAULT_OWNERSHIP_GROUPS = [
@@ -90,7 +91,7 @@ export async function createWorkspace(
   // Create default equity policy
   await supabase.from('equity_policy_versions').insert({
     workspace_id: workspace.id,
-    policy_data: DEFAULT_EQUITY_POLICY,
+    policy_data: DEFAULT_EQUITY_POLICY as unknown as Json,
     created_by: user.id,
   })
 
@@ -149,6 +150,7 @@ export async function inviteMember(
 
 export async function updateEquityPolicy(
   workspaceId: string,
+  _prev: WorkspaceActionState,
   formData: FormData
 ): Promise<WorkspaceActionState> {
   const supabase = await createClient()
@@ -172,7 +174,7 @@ export async function updateEquityPolicy(
 
   const { error } = await supabase.from('equity_policy_versions').insert({
     workspace_id: workspaceId,
-    policy_data: parsed.data,
+    policy_data: parsed.data as unknown as Json,
     created_by: user.id,
   })
 
@@ -184,6 +186,7 @@ export async function updateEquityPolicy(
 
 export async function updateWorkspaceDetails(
   workspaceId: string,
+  _prev: WorkspaceActionState,
   formData: FormData
 ): Promise<WorkspaceActionState> {
   const supabase = await createClient()
@@ -209,7 +212,8 @@ export async function updateWorkspaceDetails(
 
   const { error } = await supabase
     .from('property_workspace')
-    .update(updates)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .update(updates as any)
     .eq('id', workspaceId)
 
   if (error) return { error: error.message }

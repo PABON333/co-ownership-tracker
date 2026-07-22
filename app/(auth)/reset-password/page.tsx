@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import { resetPassword } from '@/app/actions/auth'
+import { resetPassword, type AuthActionState } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
 
-const initialState = {}
+const initialState: AuthActionState = {}
 
 export default function ResetPasswordPage() {
   const [state, action, isPending] = useActionState(resetPassword, initialState)

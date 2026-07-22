@@ -13,7 +13,7 @@ import {
   computeEquityTransferEffects,
 } from '@/lib/financial/calculations'
 import type { EquityPolicy, CapitalEffect, TransactionAllocation } from '@/lib/types/app'
-import type { TransactionType, ExpenseCategory } from '@/lib/types/database'
+import type { Json, TransactionType, ExpenseCategory } from '@/lib/types/database'
 import { DEFAULT_EQUITY_POLICY } from '@/lib/types/app'
 
 export type TransactionActionState = {
@@ -52,7 +52,7 @@ async function getWorkspaceAndBalances(userId: string) {
     balance_cents: number
   }>
 
-  const policy: EquityPolicy = (policyRaw?.policy_data as EquityPolicy) ?? DEFAULT_EQUITY_POLICY
+  const policy: EquityPolicy = (policyRaw?.policy_data as unknown as EquityPolicy) ?? DEFAULT_EQUITY_POLICY
 
   return {
     supabase,
@@ -109,7 +109,7 @@ async function callPostRpc(
     p_counterparty_reference: counterpartyReference ?? null,
     p_expense_category: expenseCategory ?? null,
     p_property_cash_effect_cents: propertyCashEffectCents,
-    p_policy_snapshot: policySnapshot as unknown as Record<string, unknown>,
+    p_policy_snapshot: policySnapshot as unknown as Json,
     p_allocations: allocations.map((a) => ({
       ownership_group_id: a.ownership_group_id,
       amount_cents: a.amount_cents,

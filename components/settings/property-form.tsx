@@ -20,12 +20,12 @@ interface Props {
     original_loan_amount_cents?: number
     loan_notes: string
   }
-  updateAction: (workspaceId: string, formData: FormData) => Promise<WorkspaceActionState>
+  updateAction: (workspaceId: string, _prev: WorkspaceActionState, formData: FormData) => Promise<WorkspaceActionState>
 }
 
 export function SettingsPropertyForm({ workspaceId, defaultValues, updateAction }: Props) {
   const boundAction = updateAction.bind(null, workspaceId)
-  const [state, formAction, pending] = useActionState(boundAction, {})
+  const [state, formAction, pending] = useActionState(boundAction, {} as WorkspaceActionState)
 
   return (
     <form action={formAction} className="space-y-4">

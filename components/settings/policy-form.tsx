@@ -24,12 +24,12 @@ interface Policy {
 interface Props {
   workspaceId: string
   currentPolicy: Policy | null
-  updateAction: (workspaceId: string, formData: FormData) => Promise<WorkspaceActionState>
+  updateAction: (workspaceId: string, _prev: WorkspaceActionState, formData: FormData) => Promise<WorkspaceActionState>
 }
 
 export function SettingsPolicyForm({ workspaceId, currentPolicy, updateAction }: Props) {
   const boundAction = updateAction.bind(null, workspaceId)
-  const [state, formAction, pending] = useActionState(boundAction, {})
+  const [state, formAction, pending] = useActionState(boundAction, {} as WorkspaceActionState)
 
   const p = currentPolicy ?? {
     mortgage_interest_credits_payer: true,

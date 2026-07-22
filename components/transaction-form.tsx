@@ -35,6 +35,7 @@ import {
   postEquityTransfer,
   postManualAdjustment,
   postReversal,
+  type TransactionActionState,
 } from '@/app/actions/transactions'
 import {
   TRANSACTION_TYPE_LABELS,
@@ -80,7 +81,7 @@ const TRANSACTION_TYPES: TransactionType[] = [
 
 const EXPENSE_CATEGORIES = Object.entries(EXPENSE_CATEGORY_LABELS) as [ExpenseCategory, string][]
 
-const initialState = {}
+const initialState: TransactionActionState = {}
 
 function AllocationEditor({
   groups,
@@ -426,7 +427,7 @@ export function TransactionForm({ groups, balances, policy, defaultType }: Trans
 
               <div className="space-y-2">
                 <Label>Paying Group *</Label>
-                <Select value={payerGroupId} onValueChange={setPayerGroupId}>
+                <Select value={payerGroupId} onValueChange={(v) => setPayerGroupId(v ?? '')}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -453,7 +454,7 @@ export function TransactionForm({ groups, balances, policy, defaultType }: Trans
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Source Group (debit)</Label>
-                  <Select value={sourceGroupId} onValueChange={setSourceGroupId}>
+                  <Select value={sourceGroupId} onValueChange={(v) => setSourceGroupId(v ?? '')}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -468,7 +469,7 @@ export function TransactionForm({ groups, balances, policy, defaultType }: Trans
                 </div>
                 <div className="space-y-2">
                   <Label>Destination Group (credit)</Label>
-                  <Select value={destinationGroupId} onValueChange={setDestinationGroupId}>
+                  <Select value={destinationGroupId} onValueChange={(v) => setDestinationGroupId(v ?? '')}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

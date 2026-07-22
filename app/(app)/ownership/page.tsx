@@ -179,7 +179,7 @@ export default async function OwnershipPage() {
         {(groups ?? []).map((group) => {
           const balance = balances.find((b) => b.ownership_group_id === group.id)
           const pct = balance ? (percentages.get(group.id) ?? 0) : 0
-          const members = (group.ownership_group_members ?? []) as Array<{
+          const members = (group.ownership_group_members ?? []) as unknown as Array<{
             profile_id: string
             profiles: { full_name: string | null; email: string } | null
           }>

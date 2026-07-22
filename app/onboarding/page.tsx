@@ -2,7 +2,7 @@
 
 import { useState, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createWorkspace } from '@/app/actions/workspace'
+import { createWorkspace, type WorkspaceActionState } from '@/app/actions/workspace'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -28,7 +28,7 @@ const DEFAULT_GROUPS = [
   { name: 'Gustavo', description: 'Individual owner' },
 ]
 
-const initialState = {}
+const initialState: WorkspaceActionState = {}
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1)

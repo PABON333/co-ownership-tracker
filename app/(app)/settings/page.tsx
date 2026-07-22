@@ -199,7 +199,7 @@ export default async function SettingsPage({
             <CardContent>
               <div className="space-y-2">
                 {(members ?? []).map((m) => {
-                  const profile = m.profiles as { full_name: string | null; email: string } | null
+                  const profile = m.profiles as unknown as { full_name: string | null; email: string } | null
                   return (
                     <div key={m.profile_id} className="flex items-center gap-3 py-2 border-b last:border-0">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">

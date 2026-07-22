@@ -35,9 +35,9 @@ export function OwnershipChart({ data }: OwnershipChartProps) {
           ))}
         </Pie>
         <Tooltip
-          formatter={(value: number, name: string, props) => [
-            `${formatCentsAsCurrency(value)} (${formatPercentage(props.payload.percentage)})`,
-            name,
+          formatter={(value, name, props) => [
+            `${formatCentsAsCurrency((value as number) ?? 0)} (${formatPercentage((props as unknown as { payload: { percentage: number } }).payload?.percentage ?? 0)})`,
+            name as string,
           ]}
         />
         <Legend
